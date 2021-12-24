@@ -5,16 +5,13 @@ import numpy as np
 input_file = open("input.txt", "r").readlines()
 
 
-
-def partioning(first,second,letter):
+def partioning(first, second, letter):
     if letter == "F" or letter == "L":
-        return first, math.floor(np.mean([first , second]))
+        return first, math.floor(np.mean([first, second]))
 
     elif letter == "B" or letter == "R":
-        return math.ceil(np.mean([first , second])), second
+        return math.ceil(np.mean([first, second])), second
 
-    
-    
 
 highest_pass = 0
 for board_pass in input_file:
@@ -26,13 +23,16 @@ for board_pass in input_file:
 
     for i in range(len(board_pass)):
         if board_pass[i] == "B" or board_pass[i] == "F":
-            first_row, second_row = partioning(first_row, second_row,board_pass[i])
-            
+            first_row, second_row = partioning(first_row,
+                                               second_row,
+                                               board_pass[i])
 
         elif board_pass[i] == "L" or board_pass[i] == "R":
-            first_col, second_col = partioning(first_col, second_col,board_pass[i])
+            first_col, second_col = partioning(first_col,
+                                               second_col,
+                                               board_pass[i])
 
-    high_pass = (first_row * 8 + first_col)
-    highest_pass =  high_pass if high_pass > highest_pass else  highest_pass
+    high_pass = first_row * 8 + first_col
+    highest_pass = high_pass if high_pass > highest_pass else highest_pass
 
 print(highest_pass)

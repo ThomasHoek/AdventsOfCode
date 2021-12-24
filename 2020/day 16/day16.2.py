@@ -1,7 +1,6 @@
-
 import copy
 
-inputfile = [i.rstrip() for i in open("input.txt", "r") if i.rstrip() != '']
+inputfile = [i.rstrip() for i in open("input.txt", "r") if i.rstrip() != ""]
 
 rules = []
 my_ticket = 0
@@ -25,15 +24,15 @@ for line in inputfile:
             rules.append(line)
 
 
-#### clean ####
+# clean
 invalid_numbers = []
 valid_numbers = []
 for row in rules:
     range1, range2 = row.split(":")[1].split(" or ")
     range1 = [int(i) for i in range1.split("-")]
     range2 = [int(i) for i in range2.split("-")]
-    valid_numbers += range(range1[0], range1[1]+1)
-    valid_numbers += range(range2[0], range2[1]+1)
+    valid_numbers += range(range1[0], range1[1] + 1)
+    valid_numbers += range(range2[0], range2[1] + 1)
 
 valid_tickets = []
 for ticket in other_ticket:
@@ -68,11 +67,12 @@ for row in rules:
     range1, range2 = row.split(":")[1].split(" or ")
     range1 = [int(i) for i in range1.split("-")]
     range2 = [int(i) for i in range2.split("-")]
-    valid_numbers += range(range1[0], range1[1]+1)
-    valid_numbers += range(range2[0], range2[1]+1)
+    valid_numbers += range(range1[0], range1[1] + 1)
+    valid_numbers += range(range2[0], range2[1] + 1)
 
     for sublst in ticket_lst:
-        if sum([1 if i in valid_numbers else 0 for i in sublst]) == len(sublst):
+        sum_lst = sum([1 if i in valid_numbers else 0 for i in sublst])
+        if sum_lst == len(sublst):
             bin_ticket_lst[counter].append(1)
         else:
             bin_ticket_lst[counter].append(0)

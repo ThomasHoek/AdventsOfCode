@@ -1,10 +1,8 @@
 # [Done] exited with code=0 in 0.259 seconds
-import math
-import numpy as np
 import copy
 
 
-input_file = open("input.txt","r").readlines()
+input_file = open("input.txt", "r").readlines()
 
 bag_list = []
 new_bags = ["shiny gold"]
@@ -15,17 +13,17 @@ while True:
     for line in input_file:
         for nbag in new_bags:
             if nbag in line:
-                if nbag == ' '.join(line.split(" ")[:2]):
+                if nbag == " ".join(line.split(" ")[:2]):
                     pass
 
                 else:
-                    bag_list.append(' '.join(line.split(" ")[:2]))
-                    
+                    bag_list.append(" ".join(line.split(" ")[:2]))
+
     if previous_bag == bag_list:
         break
-    
+
     else:
-        new_bags = set(bag_list) - set(previous_bag) 
+        new_bags = set(bag_list) - set(previous_bag)
 
 
 print(len(set(bag_list)))

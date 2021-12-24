@@ -1,11 +1,9 @@
 # [Done] exited with code=0 in 0.089 seconds
-import copy
-
-input_file = open("input.txt","r").readlines()
+input_file = open("input.txt", "r").readlines()
 input_file = [int(word.rstrip()) for word in input_file]
 input_file.sort()
 
-my_dict = {3:1,1:1}
+my_dict = {3: 1, 1: 1}
 
 for i in range(len(input_file) - 1):
     diff = input_file[i + 1] - input_file[i]
@@ -16,8 +14,4 @@ for i in range(len(input_file) - 1):
         my_dict[diff] = 1
 
 print(my_dict)
-print(my_dict[1] *  my_dict[3])
-
-    
-
-
+print(my_dict[1] * my_dict[3])

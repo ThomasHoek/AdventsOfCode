@@ -1,5 +1,4 @@
-import copy
-inputfile = [i.rstrip() for i in open("input.txt", "r") if i.rstrip() != '']
+inputfile = [i.rstrip() for i in open("input.txt", "r") if i.rstrip() != ""]
 
 
 def reverse(string):
@@ -15,14 +14,11 @@ def add(num1, num2):
 
 
 def solve_parenthensies(equation, recursive=False):
-    
-    front_out_of_parenthensies = equation[:equation.index("(")]
-    back_out_of_parenthensies = equation[(
-        len(equation) - equation[::-1].index(")")):]
-    parenthensies = equation[equation.index(
-        "("):len(equation) - equation[::-1].index(")")]
 
-    parenthensies_split = []
+    front_out_of_parenthensies = equation[: equation.index("(")]
+    index_par = len(equation) - equation[::-1].index(")")
+    back_out_of_parenthensies = equation[index_par:]
+    parenthensies = equation[equation.index("("):index_par]
 
     counter_equal = 0
     open_dict = {}
@@ -44,13 +40,13 @@ def solve_parenthensies(equation, recursive=False):
             start = i
 
         if i in close_dict and close_dict[i] == 0:
-            awnser_parenthensies.append(
-                solve(parenthensies[start+1:i], recursive=True))
+            awnser_parenthensies.append(solve(parenthensies[start + 1: i],
+                                              recursive=True))
 
     start = True
     counter = len(awnser_parenthensies) - 1
     parenthensies_replace = []
-    for i in range(len(parenthensies)-1, -1, -1):
+    for i in range(len(parenthensies) - 1, -1, -1):
 
         if i in close_dict and close_dict[i] == 0:
             start = False
@@ -62,15 +58,24 @@ def solve_parenthensies(equation, recursive=False):
             start = True
             parenthensies_replace.append((str(awnser_parenthensies[counter])))
             counter -= 1
-    return solve(front_out_of_parenthensies + ''.join([str(i) for i in parenthensies_replace[::-1]]) + back_out_of_parenthensies)
+    return solve(
+        front_out_of_parenthensies
+        + "".join([str(i) for i in parenthensies_replace[::-1]])
+        + back_out_of_parenthensies
+    )
 
 
 def solve_no_parenthensies(equation):
     equation_split = equation.split(" ")
     while len(equation_split) != 1:
-        first_operator = next((equation_split.index(x) for x in equation_split if  x == "+"), None)
-        if first_operator == None:
-            first_operator = next((equation_split.index(x) for x in equation_split if  x == "*"), None)
+        first_operator = next(
+            (equation_split.index(x) for x in equation_split if x == "+"), None
+        )
+        if first_operator is None:
+            first_operator = next(
+                (equation_split.index(x) for x in equation_split if x == "*"),
+                None
+            )
 
         num1 = int(equation_split[first_operator - 1])
         num2 = int(equation_split[first_operator + 1])
@@ -81,15 +86,19 @@ def solve_no_parenthensies(equation):
         else:
             total = multiply(num1, num2)
 
-        equation_split = equation_split[:first_operator-1] + [total] + equation_split[first_operator + 2:]
-        
+        equation_split = (
+            equation_split[: first_operator - 1]
+            + [total]
+            + equation_split[first_operator + 2:]
+        )
+
     return equation_split
 
 
 def solve(equation, recursive=False):
     # print(equation)
     if equation.count("(") == 0:
-        return  [int(i) for i in solve_no_parenthensies(equation)][0]
+        return [int(i) for i in solve_no_parenthensies(equation)][0]
 
     else:
         return solve_parenthensies(equation, recursive)

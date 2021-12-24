@@ -1,8 +1,5 @@
 # [Done] exited with code=0 in 0.198 seconds
-import math
-import numpy as np
-
-input_file = open("input.txt","r").readlines()
+input_file = open("input.txt", "r").readlines()
 
 new_input = [[]]
 counter = 0
@@ -21,8 +18,9 @@ for group in new_input:
         for letter in person:
             person_set.add(letter)
         group_lst.append(person_set)
-    
-    total_length += len(set.intersection(*group_lst))       # https://stackoverflow.com/questions/17495257/get-intersection-of-list-of-sets   - > wildcard to iterate
-    
+
+    total_length += len(set.intersection(*group_lst))
+    # https://stackoverflow.com/a/17495274- > wildcard to iterate
+
 
 print(total_length)

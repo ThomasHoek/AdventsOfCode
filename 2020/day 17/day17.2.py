@@ -18,8 +18,9 @@ for i in range(math.ceil((total_add - len(inputfile2)) / 2)):
     dim2_grid.append([int(i) for i in ["0"] * total_add])
 
 for i in range(len(inputfile2)):
-    before = [int(i) for i in ["0"] * math.ceil((total_add - len(inputfile[i])) / 2)]
-    after = [int(i) for i in ["0"] * math.floor((total_add - len(inputfile[i])) / 2)]
+    var = (total_add - len(inputfile[i])) / 2
+    before = [int(i) for i in ["0"] * math.ceil(var)]
+    after = [int(i) for i in ["0"] * math.floor(var)]
     dim2_grid.append(before + inputfile2[i] + after)
 
 for i in range(math.ceil((total_add - len(inputfile2)) / 2)):
@@ -69,7 +70,7 @@ def get_surrounding(layer, x, y, z, w):
                         else:
                             try:
                                 sur_lst.append(grid[wsur][zsur][ysur][xsur])
-                            except:
+                            except IndexError:
                                 sur_lst.append(0)
     return sum(sur_lst)
 

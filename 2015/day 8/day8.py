@@ -7,7 +7,6 @@ total_string = 0
 
 def hex_to_bit(hexstr: str) -> str:
     byte_hex = bytes.fromhex(hexstr)
-    # return byte_hex.decode('Latin-1')
     return byte_hex.decode('Latin-1')
 
 
@@ -22,16 +21,20 @@ for line in puzzle_input:
         backslash_com = line[index_pointer:index_pointer + 2]
         if backslash_com == "\\x":
             try:
-                new_str = hex_to_bit(str(line[index_pointer+2: index_pointer+4]))
-                line = line.replace(line[index_pointer: index_pointer+4], new_str, 1)
+                substr = line[index_pointer+2:index_pointer+4]
+                new_str = hex_to_bit(str(substr))
+                line = line.replace(line[index_pointer: index_pointer+4],
+                                    new_str, 1)
             except ValueError:
                 index_pointer += 1
 
         elif backslash_com == "\\\\":
-            line = line.replace(line[index_pointer: index_pointer+2], "\\", 1)
+            substr = line[index_pointer: index_pointer+2]
+            line = line.replace(substr, "\\", 1)
 
         elif backslash_com == "\\\"":
-            line = line.replace(line[index_pointer: index_pointer+2], "\"", 1)
+            substr = line[index_pointer: index_pointer+2]
+            line = line.replace(substr, "\"", 1)
 
         else:
             index_pointer += 1
@@ -41,5 +44,5 @@ for line in puzzle_input:
 
         index_pointer += 1
     total_string += len(line)
-    
+
 print(total_length - total_string)

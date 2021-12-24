@@ -1,23 +1,17 @@
-
-import copy
 from functools import reduce
-import math
 
 
 def printTribRec(n):
-    if (n == 0 or n == 1 or n == 2):
+    if n == 0 or n == 1 or n == 2:
         return 0
     elif n == 3:
-        return 1                # 0 should not be used
+        return 1  # 0 should not be used
     else:
-        return (printTribRec(n - 1) +
-                printTribRec(n - 2) +
-                printTribRec(n - 3))
+        return printTribRec(n - 1) + printTribRec(n - 2) + printTribRec(n - 3)
 
 
 input_file = open("input.txt", "r").readlines()
 input_file = [int(word.rstrip()) for word in input_file]
-
 
 
 input_file.append(0)

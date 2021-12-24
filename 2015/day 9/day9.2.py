@@ -23,6 +23,8 @@ for combination in list(permutations(all_places)):
     for city_index in range(len(combination) - 1):
         local_distance += city_dict[(combination[city_index],
                                      combination[city_index + 1])]
-    max_distance = local_distance if local_distance > max_distance else max_distance
+
+    if local_distance > max_distance:
+        max_distance = local_distance
 
 print(max_distance)

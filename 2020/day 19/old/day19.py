@@ -1,9 +1,8 @@
-import copy
 inputfile = [i.rstrip() for i in open("input2.txt", "r")]
 
 split_index = inputfile.index("")
 rules = inputfile[:split_index]
-inputs = inputfile[split_index+1:]
+inputs = inputfile[split_index + 1:]
 
 rules_dict = {}
 for rule in rules:
@@ -15,15 +14,13 @@ def split_or(rule_line):
     counter = 0
     for subrules2 in [i.split(" ") for i in rule_line.split("|")]:
         subrules2 = [x for x in subrules2 if x]
-        counter2 = 0
         for subrule3 in subrules2:
             split_rule.append([])
-            if '"' in rules_dict[int(subrule3)]:
-                split_rule[counter].append(
-                    rules_dict[int(subrule3)].split('"')[-2])
+            var = rules_dict[int(subrule3)]
+            if '"' in var:
+                split_rule[counter].append(var.split('"')[-2])
             else:
-                split_rule[counter].append(
-                    recursive_find(rules_dict[int(subrule3)]))
+                split_rule[counter].append(recursive_find(var))
         counter += 1
 
     return [i for i in split_rule if i != []]
@@ -47,8 +44,10 @@ def recursive_find(rule):
 
 rule_zero = recursive_find(rules_dict[0])
 
+
 def remove_doubles(lst):
     return list(set(lst))
+
 
 def flatten_lst(lst):
     flat_list = []
@@ -56,18 +55,13 @@ def flatten_lst(lst):
         for item in sublist:
             flat_list.append(item)
     return flat_list
-    
 
 
 # def solve_lst(lst,check):
 #     for i in check:
-        
-        
- 
-    
-        
+
 
 # print(rule_zero)
-mix = solve_lst(rule_zero,inputs)
-print(mix)
-# aaaabb, aaabab, abbabb, abbbab, aabaab, aabbbb, abaaab, or ababbb.    
+# mix = solve_lst(rule_zero, inputs)
+# print(mix)
+# aaaabb, aaabab, abbabb, abbbab, aabaab, aabbbb, abaaab, or ababbb.

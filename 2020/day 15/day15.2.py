@@ -1,7 +1,6 @@
-
 import copy
 
-inputfile =  [i.rstrip().split(",") for i in open("input.txt","r")][0]
+inputfile = [i.rstrip().split(",") for i in open("input.txt", "r")][0]
 
 last = 0
 mem_dict = {}
@@ -30,9 +29,3 @@ while counter != number:
 for value in mem_dict:
     if mem_dict[value] == number:
         print(value)
-
-
-    
-
-
-    

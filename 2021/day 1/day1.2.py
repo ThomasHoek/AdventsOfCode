@@ -7,10 +7,10 @@ for line in range(len(puzzle_input) - 2):
     a = puzzle_input[line]
     b = puzzle_input[line + 1]
     c = puzzle_input[line + 2]
-    
-    if prev != None and (a + b + c) > prev:
+
+    if prev is not None and (a + b + c) > prev:
         count += 1
-        
+
     prev = a + b + c
 
 
