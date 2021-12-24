@@ -28,7 +28,7 @@ def toggle(start: tuple, end: tuple):
             matrix[x][y] += 2
 
 
-puzzle_input = open("input2.txt", "r").readlines()
+puzzle_input = open("input.txt", "r").readlines()
 for line in puzzle_input:
 
     if "toggle" in line:
