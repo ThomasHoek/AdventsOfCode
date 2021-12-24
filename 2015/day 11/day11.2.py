@@ -1,4 +1,4 @@
-puzzle_input = open("input.txt", "r").readline()
+puzzle_input = open("input2.txt", "r").readline()
 
 
 def converter_int(num: int) -> str:
