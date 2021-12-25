@@ -1,3 +1,8 @@
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
+
 
 def vowel_check(inp: str) -> bool:
     inp.lower()
@@ -23,7 +28,6 @@ def contains_string(inp: str) -> bool:
 
 nice = 0
 naughty = 0
-puzzle_input = open("input.txt", "r").readlines()
 for line in puzzle_input:
     if vowel_check(line):
         if check_double_letter(line):

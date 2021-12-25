@@ -1,5 +1,9 @@
 # Solution can be done using numpy
 import numpy as np
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
 
 matrix = np.zeros((1000, 1000))
 
@@ -25,7 +29,6 @@ def toggle(start: tuple, end: tuple):
             matrix[x][y] = not matrix[x][y]
 
 
-puzzle_input = open("input.txt", "r").readlines()
 for line in puzzle_input:
 
     if "toggle" in line:

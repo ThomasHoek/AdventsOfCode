@@ -3,6 +3,11 @@
 # <: west
 # >: east
 # Question: how many atleast 1.
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readline()
+
 
 # location tuple: (North/south, east/west)
 def new_location(direction: str, current_loc: tuple) -> tuple:
@@ -30,7 +35,6 @@ unique_coords = set()
 loc = (0, 0)
 unique_coords.add(loc)
 
-puzzle_input = open("input.txt", "r").readline()
 for command in puzzle_input:
     loc = new_location(command, loc)
     unique_coords.add(loc)

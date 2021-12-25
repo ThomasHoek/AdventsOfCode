@@ -1,6 +1,8 @@
 import numpy as np
+import os
 
-puzzle_input = open("input.txt", "r").readlines()
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
 puzzle_input = [list(map(int, str(x.rstrip()))) for x in puzzle_input]
 
 matrix = np.asarray(puzzle_input)

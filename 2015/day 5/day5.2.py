@@ -1,3 +1,8 @@
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
+
 
 def double_double_string(inp: str) -> bool:
     while len(inp) > 3:
@@ -16,7 +21,6 @@ def check_double_letter(inp: str) -> bool:
 
 nice = 0
 naughty = 0
-puzzle_input = open("input.txt", "r").readlines()
 for line in puzzle_input:
     if double_double_string(line):
         if check_double_letter(line):

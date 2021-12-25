@@ -4,6 +4,11 @@
 # Want to order EXACTLY as much as they need
 # Find the surface: 2*l*w + 2*w*h + 2*h*l
 # Question: Total square feet
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readlines()
+
 
 def formula(L: int, W: int, H: int) -> int:
     """Calculate the square feet and added paper
@@ -19,7 +24,6 @@ def formula(L: int, W: int, H: int) -> int:
 
 
 total = 0
-puzzle_input = open("input.txt", "r").readlines()
 for line in puzzle_input:
     l, w, h = map(int, line.split("x"))
     total += formula(l, w, h)

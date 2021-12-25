@@ -1,4 +1,7 @@
-puzzle_input = str(open("input.txt", "r").readline())
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+puzzle_input = open(f"{dir_path}/input.txt", "r").readline()
 
 string = puzzle_input
 for _ in range(50):
