@@ -15,7 +15,7 @@ class rendeer:
     rest_ticks = 0
     points = 0
 
-    def __init__(self, speed, time_a, time_r):
+    def __init__(self, speed: int, time_a: int, time_r: int):
         """__init__ settings every variable
 
         Reindeer olympics, every rendeir has their own attributs which get set.
@@ -53,7 +53,7 @@ class rendeer:
                 self.rest = True
                 self.rest_ticks = copy.deepcopy(self.time_rest)
 
-    def get_dist(self):
+    def get_dist(self) -> int:
         """get_dist get distance variable
 
         Returns the distance
@@ -72,7 +72,7 @@ class rendeer:
         """
         self.points += 1
 
-    def get_points(self):
+    def get_points(self) -> int:
         """get_points Get points
 
         Get the points the reindeer has aquired up to this far
