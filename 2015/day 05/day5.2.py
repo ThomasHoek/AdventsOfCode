@@ -22,11 +22,8 @@ def check_double_letter(inp: str) -> bool:
 nice = 0
 naughty = 0
 for line in puzzle_input:
-    if double_double_string(line):
-        if check_double_letter(line):
-            nice += 1
-        else:
-            naughty += 1
+    if double_double_string(line) and check_double_letter(line):
+        nice += 1
     else:
         naughty += 1
 print(nice, naughty)

@@ -29,14 +29,9 @@ def contains_string(inp: str) -> bool:
 nice = 0
 naughty = 0
 for line in puzzle_input:
-    if vowel_check(line):
-        if check_double_letter(line):
-            if contains_string(line):
-                nice += 1
-            else:
-                naughty += 1
-        else:
-            naughty += 1
+    if vowel_check(line) and check_double_letter(line) and \
+       contains_string(line):
+        nice += 1
     else:
         naughty += 1
 print(nice, naughty)
