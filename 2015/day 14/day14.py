@@ -16,7 +16,7 @@ class rendeer:
     rest_ticks = 0
 
     def __init__(self, speed: int, time_a: int, time_r: int):
-        """__init__ settings every variable
+        """__init__ set every variable
 
         Reindeer olympics, every rendeir has their own attributs which get set.
 
