@@ -5,7 +5,7 @@ import itertools
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print(dir_path)
-puzzle_input = int(open(f"{dir_path}/input.txt", "r").readline())
+puzzle_input = int(open(f"{dir_path}/../input.txt", "r").readline())
 
 
 def get_primes_to_max(n) -> list:
@@ -63,10 +63,13 @@ def divisors(n) -> int:
     return sum(lst)
 
 
-# skip a bit
+# # skip a bit
 prime_lst = get_primes_to_max(29000000)
+
+
 bigstep = True
 counter = 500_000
+print("primes done")
 while True:
     presents = divisors(counter)
     if presents > puzzle_input and not bigstep:

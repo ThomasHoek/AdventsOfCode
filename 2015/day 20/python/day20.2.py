@@ -4,7 +4,7 @@ import itertools
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print(dir_path)
-puzzle_input = int(open(f"{dir_path}/input.txt", "r").readline())
+puzzle_input = int(open(f"{dir_path}/../input.txt", "r").readline())
 
 
 def get_primes_to_max(n) -> list:
@@ -65,54 +65,15 @@ def divisors(n) -> int:
 
 # skip a bit
 prime_lst = get_primes_to_max(29000000)
-# counter = 500_000
-# while True:
-#     presents = int(divisors(counter))
-#     if presents > puzzle_input:
-#         print(counter)
-#         break
 
-#     if counter % 10000 == 0:
-#         print(counter)
-
-#     counter += 1
-
-bigstep = True
 counter = 500_000
 while True:
     presents = divisors(counter)
-    if presents > puzzle_input and not bigstep:
+    if presents > puzzle_input:
         print(counter)
         break
-
-    elif presents > puzzle_input:
-        bigstep = False
-        counter -= int((counter / 10))   # back 10%
 
     if counter % 10000 == 0:
         print(counter)
 
-    # add big skip tactic
-    if bigstep:
-        counter += 11
-    else:
-        counter += 1
-
-
-# That's not the right answer; your answer is too high.
-# If you're stuck, make sure you're using the full input data; there are also some general tips on the about page,
-# or you can ask for hints on the subreddit. Please wait one minute before trying again. (You guessed 8437502.)
-# higher
-#1_320_000
-
-# That's not the right answer.
-# If you're stuck, make sure you're using the full input data;
-# there are also some general tips on the about page, or you can ask for hints on the subreddit.
-# Because you have guessed incorrectly 4 times on this puzzle,
-# please wait 5 minutes before trying again. (You guessed 2097152.)
-
-
-# 2_097_152
-# 2_929_699
-# 3_515_639
-# 8_437_502
+    counter += 1
