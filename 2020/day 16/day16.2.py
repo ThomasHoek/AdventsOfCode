@@ -31,6 +31,7 @@ for row in rules:
     range1, range2 = row.split(":")[1].split(" or ")
     range1 = [int(i) for i in range1.split("-")]
     range2 = [int(i) for i in range2.split("-")]
+    
     valid_numbers += range(range1[0], range1[1] + 1)
     valid_numbers += range(range2[0], range2[1] + 1)
 

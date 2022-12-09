@@ -236,15 +236,7 @@ contains
       ps = get_unique_array(factors_array)
       omega = size(ps) + 1
 
-      divisors_array = rec_gen(factors=factors_array, n=1, ps=ps, omega=omega)
-      return
-   end function divisors
-
-   function conditional_sum(divisors_array, max_num, mult) result(cond_sum)
-      integer, intent(in) :: divisors_array(:)
-      integer, intent(in) :: mult, max_num
-      integer :: index, cond_sum
-
+      divisors_array = rec_gen(faAlso
       cond_sum = 0
       do index = 1, size(divisors_array)
          if ((divisors_array(index)*50) >= max_num) then
