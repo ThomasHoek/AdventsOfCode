@@ -65,14 +65,13 @@ class folder:
         self.children.append(user_file(name=name,
                                        weight=weight))
 
-    def get_parent_folder(self) -> folder:
+    def get_parent_folder(self) -> folder | None:
         """
         get_parent_folder get the folder of the parent, if it exists
 
         Returns:
             folder : pointer
         """
-        assert self.parent is not None
         return self.parent
 
     def get_child_folder(self, name: str) -> folder:  # type: ignore
@@ -96,7 +95,7 @@ class folder:
         if self.get_parent_folder() is None:
             return self
         else:
-            return self.get_parent_folder().root()
+            return self.get_parent_folder().root()  # type: ignore
 
     def get_all_info(self, depth: int = 0) -> str:
         """
@@ -181,8 +180,9 @@ def puzzle(puzzle_input: list[Any]) -> int:
                                          weight=0,
                                          parent=None,
                                          children=[])
+                first = False
             elif name == "..":
-                current = current.get_parent_folder()
+                current = current.get_parent_folder()  # type: ignore
             else:
                 current = current.get_child_folder(name)
 
