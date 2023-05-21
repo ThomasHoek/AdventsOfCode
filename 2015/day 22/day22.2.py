@@ -21,7 +21,10 @@ class battle_info:
         self.boss: dict[str, int] = boss
         self.debug: bool = debug
 
-    def start_turn(self) -> None:
+    def start_turn(self, player: bool) -> None:
+        if player:
+            self.player["hp"] -= 1
+
         if self.shield >= 1:
             self.shield -= 1
 
@@ -119,7 +122,7 @@ def start_p_turn(simulation: battle_info, min_spent: float) -> float:
     win_lose: bool
     mana_val: float
 
-    simulation.start_turn()
+    simulation.start_turn(True)
     win_lose, mana_val = simulation.win_lose_check(min_spent)
     if win_lose:
         if global_debug:
@@ -150,7 +153,7 @@ def action_turn(simulation: battle_info, min_spent: float, action: int) -> float
         return mana_val
 
     # ======  your turn is over, boss turn =====
-    simulation.start_turn()
+    simulation.start_turn(False)
     win_lose, mana_val = simulation.win_lose_check(min_spent)
     if win_lose:
         if global_debug:
