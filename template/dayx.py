@@ -1,17 +1,29 @@
-def puzzle(puzzle_input):
+from typing import Any
+
+
+def puzzle(puzzle_input: Any) -> Any:
     pass
 
 
 if __name__ == "__main__":
     import sys
     import os
+    from io import TextIOWrapper
+    from typing import TextIO
 
     try:
-        final: bool = sys.argv[1] == "final"
+        final: bool = "final" in sys.argv
+        file: bool = "file" in sys.argv
     except IndexError:
         final: bool = False
+        file: bool = False
 
     dir_path: str = os.path.dirname(os.path.realpath(__file__))
+
+    if file:
+        orig_stdout: TextIO = sys.stdout
+        f: TextIOWrapper = open('out.txt', 'w')
+        sys.stdout = f
 
     if final:
         puzzle_input: list[str] = open(f"{dir_path}/input.txt",
@@ -24,4 +36,7 @@ if __name__ == "__main__":
                                        "r").readlines()
         puzzle_input: list[str] = [x.rstrip() for x in puzzle_input]
         assert puzzle(puzzle_input) == NotImplemented
-        exit(0)
+
+    if file:
+        sys.stdout = orig_stdout  # type: ignore
+        f.close()   # type: ignore
