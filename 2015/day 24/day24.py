@@ -1,6 +1,5 @@
 from copy import deepcopy
 from typing import Any
-from typing import Iterator
 from dataclasses import dataclass
 
 
@@ -8,6 +7,7 @@ from dataclasses import dataclass
 class int_str:
     number: int
     collected_str: str
+    str_len: int
 
 
 min_n: float = float("inf")
@@ -19,26 +19,26 @@ def recursive_solution(subset: list[int],
                        a: int_str,
                        b: int_str,
                        c: int_str,
-                       key_dict: dict[str, bool],
-                       action_lst: list[int] = [],) -> dict[str, bool]:
+                       key_dict: dict[str, bool]) -> dict[str, bool]:
 
-    # print(action_lst)
-    if a.collected_str in key_dict or b.collected_str in key_dict or c.collected_str in key_dict:
-        return True  # type: ignore
+    # # already exists
+    # if a.collected_str in key_dict or b.collected_str in key_dict or c.collected_str in key_dict:
+    #     return True  # type: ignore
 
+    # smaller than 0, a b c
     if a.number < 0 or b.number < 0 or c.number < 0:
         return False  # type: ignore
 
+    # if equal
     if a.number == 0 and b.number == 0 and c.number == 0:
         key_dict[a.collected_str] = True
         key_dict[b.collected_str] = True
         key_dict[c.collected_str] = True
-        if len(action_lst) != len(subset):
-            for _ in range(len(subset) - len(action_lst)):
-                action_lst.append(2)
 
+        # min_n = min(a.collected_str.count("_"), b.collected_str.count("_"), c.collected_str.count("_"), min_n)
         return True  # type: ignore
 
+    # if N too small
     if n < 0:
         # print("N smaller than 0")
         return False  # type: ignore
@@ -47,23 +47,23 @@ def recursive_solution(subset: list[int],
     # if a != 0:
 
     new_a: int_str = int_str(a.number - subset[n],
-                             a.collected_str + "_" + str(subset[n]))
-    recursive_solution(subset, n - 1, new_a, b, c,
-                       key_dict, action_lst + [0])
+                             a.collected_str + "_" + str(subset[n]),
+                             a.str_len + 1)
+    recursive_solution(subset, n - 1, new_a, b, c, key_dict)
 
     # B
     # if b != 0:s
     new_b: int_str = int_str(b.number - subset[n],
-                             b.collected_str + "_" + str(subset[n]))
-    recursive_solution(subset, n - 1, a, new_b, c,
-                       key_dict, action_lst + [1])
+                             b.collected_str + "_" + str(subset[n]),
+                             b.str_len + 1)
+    recursive_solution(subset, n - 1, a, new_b, c, key_dict)
 
     # C
     # if a != 0 and b != 0:
     new_c: int_str = int_str(c.number - subset[n],
-                             c.collected_str + "_" + str(subset[n]))
-    recursive_solution(subset, n - 1, a, b, new_c,
-                       key_dict, action_lst + [2])
+                             c.collected_str + "_" + str(subset[n]),
+                             c.str_len + 1)
+    recursive_solution(subset, n - 1, a, b, new_c, key_dict)
 
     # print(boola, boolb, boolc)
     return key_dict
@@ -79,7 +79,7 @@ def puzzle(puzzle_input: list[int]) -> Any:
     puzzle_input.reverse()
     if sum(puzzle_input) % 3 == 0:
 
-        abc = int_str(int(sum(puzzle_input) / 3), "")
+        abc = int_str(int(sum(puzzle_input) / 3), "", 0)
         key_dict = recursive_solution(puzzle_input,
                                       n=len(puzzle_input) - 1,
                                       a=deepcopy(abc),
@@ -89,19 +89,22 @@ def puzzle(puzzle_input: list[int]) -> Any:
 
     assert type(key_dict) == dict
 
-    # all different permutations for A
+    
+    # # all different permutations for A
     combos: list[list[int]] = [
         [int(x2) for x2 in x.split("_")[1:]] for x in list(key_dict.keys())]
 
-    # find shortest through min
-    len_combos = list(map(len, combos))
-    minimum: int = min(len_combos)
-    indices: list[int] = [i for i, v in enumerate(len_combos) if v == minimum]
-    short_lst = []
-    for i in indices:
-        short_lst.append(combos[i])
+    print(combos)
+    
+    # # find shortest through min
+    # len_combos = list(map(len, combos))
+    # minimum: int = min(len_combos)
+    # indices: list[int] = [i for i, v in enumerate(len_combos) if v == minimum]
+    # short_lst = []
+    # for i in indices:
+    #     short_lst.append(combos[i])
 
-    print(short_lst)
+    # print(short_lst)
 
 
 if __name__ == "__main__":
