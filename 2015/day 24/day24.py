@@ -1,110 +1,107 @@
-from copy import deepcopy
 from typing import Any
-from dataclasses import dataclass
+import math
+import numpy as np
 
-
-@dataclass
-class int_str:
-    number: int
-    collected_str: str
-    str_len: int
-
-
+# lowest N ever found, test but couldn't get to work
 min_n: float = float("inf")
-all_a_perm: set[str] = set()
 
 
-def recursive_solution(subset: list[int],
-                       n: int,
-                       a: int_str,
-                       b: int_str,
-                       c: int_str,
-                       key_dict: dict[str, bool]) -> dict[str, bool]:
+def check_group_sum(set: list[int], n: int, sum: int) -> bool:
+    subset: np.ndarray = np.zeros((n + 1, sum + 1))  # type: ignore
 
-    # # already exists
-    # if a.collected_str in key_dict or b.collected_str in key_dict or c.collected_str in key_dict:
-    #     return True  # type: ignore
+    # If sum is 0, then answer is true
+    for i in range(n + 1):
+        subset[i][0] = 1
 
-    # smaller than 0, a b c
-    if a.number < 0 or b.number < 0 or c.number < 0:
-        return False  # type: ignore
+    # If sum is not 0 and set is empty,
+    # then answer is false
+    for i in range(1, sum + 1):
+        subset[0][i] = False
+
+    for i in range(1, n + 1):
+        for j in range(1, sum + 1):
+            if j < set[i - 1]:
+                subset[i][j] = subset[i - 1][j]
+            if j >= set[i - 1]:
+                subset[i][j] = (subset[i - 1][j]
+                                or subset[i - 1][j - set[i - 1]])
+
+    return subset[n][sum]
+
+
+def get_all_perms(subset: list[int],
+                  target: int,
+                  perm_set: set[tuple[int]] = set(),
+                  partial: list[int] = [],
+                  partial_sum: int = 0) -> set[tuple[int]]:
+    """
+    get_perms Gets all the permutations of an input list
+
+    Uses recursion to generate the powerset, which gets checked against the target condition
+
+    Args:
+        subset (list[int]): The initial input list
+        target (int): Target integer you want the permutations to match
+        perm_set (set[tuple[int]], optional): set of every found permutation. Defaults to set().
+        partial (list[int], optional): helper variable, keeps track of leftovers. Defaults to [].
+        partial_sum (int, optional): helper variable, keeps track of sum leftover. Defaults to 0.
+
+    Returns:
+        set[tuple[int]]: Set of every possible found permutation
+    """
 
     # if equal
-    if a.number == 0 and b.number == 0 and c.number == 0:
-        key_dict[a.collected_str] = True
-        key_dict[b.collected_str] = True
-        key_dict[c.collected_str] = True
+    if partial_sum == target:
+        perm_set.add(tuple(partial))
+        return perm_set
 
-        # min_n = min(a.collected_str.count("_"), b.collected_str.count("_"), c.collected_str.count("_"), min_n)
-        return True  # type: ignore
+    # smaller than 0, a b c
+    if partial_sum >= target:
+        return perm_set
 
-    # if N too small
-    if n < 0:
-        # print("N smaller than 0")
-        return False  # type: ignore
+    # generate powerset
+    for i in range(len(subset)):
+        # go to next number [skip numbers]
+        subset_n: int = subset[i]
 
-    # A
-    # if a != 0:
+        # slice to get sub list
+        remaining: list[int] = subset[i + 1:]
 
-    new_a: int_str = int_str(a.number - subset[n],
-                             a.collected_str + "_" + str(subset[n]),
-                             a.str_len + 1)
-    recursive_solution(subset, n - 1, new_a, b, c, key_dict)
-
-    # B
-    # if b != 0:s
-    new_b: int_str = int_str(b.number - subset[n],
-                             b.collected_str + "_" + str(subset[n]),
-                             b.str_len + 1)
-    recursive_solution(subset, n - 1, a, new_b, c, key_dict)
-
-    # C
-    # if a != 0 and b != 0:
-    new_c: int_str = int_str(c.number - subset[n],
-                             c.collected_str + "_" + str(subset[n]),
-                             c.str_len + 1)
-    recursive_solution(subset, n - 1, a, b, new_c, key_dict)
-
-    # print(boola, boolb, boolc)
-    return key_dict
+        # recursive call with sublist and shorter input
+        perm_set = get_all_perms(subset=remaining,
+                                 target=target,
+                                 perm_set=perm_set,
+                                 partial=partial + [subset_n],
+                                 partial_sum=partial_sum + subset_n)
+    return perm_set
 
 
 def puzzle(puzzle_input: list[int]) -> Any:
-
     if (len(puzzle_input) < 3):
         raise AttributeError
 
-    key_dict: dict[str, bool] = dict()
-
-    puzzle_input.reverse()
     if sum(puzzle_input) % 3 == 0:
+        puzzle_input.reverse()
 
-        abc = int_str(int(sum(puzzle_input) / 3), "", 0)
-        key_dict = recursive_solution(puzzle_input,
-                                      n=len(puzzle_input) - 1,
-                                      a=deepcopy(abc),
-                                      b=deepcopy(abc),
-                                      c=deepcopy(abc),
-                                      key_dict=key_dict)
+        third_sum = int(sum(puzzle_input) / 3)
+        new_set: set[tuple[int]] = get_all_perms(subset=puzzle_input,
+                                                 target=third_sum)
 
-    assert type(key_dict) == dict
+        # get shortest only
+        short_lst: list[list[int]] = list()
+        max_len: int = len(min(new_set, key=len))
+        for val in new_set:
+            if len(val) == max_len:
+                short_lst.append(list(val))
 
-    
-    # # all different permutations for A
-    combos: list[list[int]] = [
-        [int(x2) for x2 in x.split("_")[1:]] for x in list(key_dict.keys())]
-
-    print(combos)
-    
-    # # find shortest through min
-    # len_combos = list(map(len, combos))
-    # minimum: int = min(len_combos)
-    # indices: list[int] = [i for i, v in enumerate(len_combos) if v == minimum]
-    # short_lst = []
-    # for i in indices:
-    #     short_lst.append(combos[i])
-
-    # print(short_lst)
+        # sort by QE
+        sort_lst: list[list[int]] = sorted(short_lst,
+                                           key=lambda x: math.prod(x))
+        # for highest QE
+        for i in sort_lst:
+            remainder: list[int] = [x for x in puzzle_input if x not in i]
+            if check_group_sum(remainder, len(remainder), third_sum):
+                return math.prod(i)
 
 
 if __name__ == "__main__":
@@ -116,10 +113,12 @@ if __name__ == "__main__":
     try:
         final: bool = "final" in sys.argv
         file: bool = "file" in sys.argv
+        clock: bool = "time" in sys.argv
 
     except IndexError:
         final: bool = False
         file: bool = False
+        clock: bool = False
 
     dir_path: str = os.path.dirname(os.path.realpath(__file__))
 
@@ -128,6 +127,10 @@ if __name__ == "__main__":
         f: TextIOWrapper = open('out.txt', 'w')
         sys.stdout = f
 
+    if clock:
+        import time
+        start: float = time.time()
+
     if final:
         puzzle_input: list[str] = open(f"{dir_path}/input.txt",
                                        "r").readlines()
@@ -135,12 +138,15 @@ if __name__ == "__main__":
         print(puzzle(puzzle_input_r))
 
     else:
-        puzzle_input: list[str] = open(f"{dir_path}/test.txt",
-                                       "r").readlines()
+        puzzle_input: list[str] = open(f"{dir_path}/test.txt", "r").readlines()
         puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
-        puzzle(puzzle_input_r)
-        # assert puzzle(puzzle_input) == NotImplemented
+        sol = puzzle(puzzle_input_r)
+        print(sol)
+        assert sol == 99
+
+    if clock:
+        print("time: ", time.time() - start)  # type: ignore
 
     if file:
         sys.stdout = orig_stdout  # type: ignore
-        f.close()   # type: ignore
+        f.close()  # type: ignore
