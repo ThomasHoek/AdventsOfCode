@@ -1,4 +1,3 @@
-# We are making a genetic algorithm for this
 from itertools import permutations
 import os
 
