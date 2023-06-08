@@ -6,8 +6,8 @@
 # Question: Total square feet
 import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/../input.txt", "r").readlines()
+dir_path: str = os.path.dirname(os.path.realpath(__file__))
+puzzle_input: list[str] = open(f"{dir_path}/../input.txt", "r").readlines()
 
 
 def formula(L: int, W: int, H: int) -> int:
@@ -18,7 +18,7 @@ def formula(L: int, W: int, H: int) -> int:
         W (int): Width
         H (int): Height
     """
-    lst = [L, W, H]
+    lst: list[int] = [L, W, H]
     lst.sort()
     return lst[0] * 2 + lst[1] * 2 + L*W*H
 

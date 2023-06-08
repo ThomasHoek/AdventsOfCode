@@ -3,6 +3,6 @@
 
 import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/../input.txt", "r").readline()
+dir_path: str = os.path.dirname(os.path.realpath(__file__))
+puzzle_input: str = open(f"{dir_path}/../input.txt", "r").readline()
 print(len(puzzle_input.replace(")", "")) - len(puzzle_input.replace("(", "")))

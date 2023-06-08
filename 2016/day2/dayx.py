@@ -35,13 +35,11 @@ if __name__ == "__main__":
     if final:
         puzzle_input: list[str] = open(f"{dir_path}/input.txt",
                                        "r").readlines()
-        # puzzle_input_r: list[str] = [x.rstrip() for x in puzzle_input]
         puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
         print(puzzle(puzzle_input_r))
 
     else:
         puzzle_input: list[str] = open(f"{dir_path}/test.txt", "r").readlines()
-        # puzzle_input_r: list[str] = [x.rstrip() for x in puzzle_input]
         puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
         puzzle(puzzle_input_r)
         # assert puzzle(puzzle_input) == NotImplemented

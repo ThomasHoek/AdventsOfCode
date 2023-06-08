@@ -4,8 +4,8 @@
 
 import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-puzzle_input = open(f"{dir_path}/../input.txt", "r").readline()
-up = puzzle_input.count("(")
-down = puzzle_input.count(")")
+dir_path: str = os.path.dirname(os.path.realpath(__file__))
+puzzle_input: str = open(f"{dir_path}/../input.txt", "r").readline()
+up: int = puzzle_input.count("(")
+down: int = puzzle_input.count(")")
 print(up - down)
