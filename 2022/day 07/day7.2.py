@@ -1,12 +1,13 @@
 from __future__ import annotations
 from cmath import inf
 from dataclasses import dataclass
-from typing import Any, NoReturn, Literal
+from typing import Any, NoReturn, Optional, Literal
 
 
 @dataclass
 class user_file:
     """File"""
+
     name: str
     weight: int
 
@@ -14,7 +15,7 @@ class user_file:
         raise RuntimeError("Weight of File searched")
 
     def get_all_info(self, depth: int = 0) -> str:
-        info: str = '│\t' * (depth - 1) + '├───'
+        info: str = "│\t" * (depth - 1) + "├───"
         info += f"{self.name}, (file {self.weight}) \n"
         return info
 
@@ -28,7 +29,7 @@ class folder:
 
     name: str
     weight: int
-    parent: 'folder' | None
+    parent: Optional[folder]
     children: list[user_file | folder]
 
     def add_weight(self, weight: int) -> None:
@@ -50,32 +51,28 @@ class folder:
         Args:
             name (str): folder name
         """
-        self.children.append(folder(name=name,
-                                    parent=self,
-                                    weight=0,
-                                    children=[]))
+        self.children.append(folder(name=name, parent=self, weight=0, children=[]))
 
     def add_file(self, name: str, weight: int) -> None:
         """
-        add_file adds a file to the current folder
+        add_file adds a file to the folder_pointer folder
         Args:
             name (str): name of the file
             weight (int): file size
         """
         self.add_weight(weight=weight)
-        self.children.append(user_file(name=name,
-                                       weight=weight))
+        self.children.append(user_file(name=name, weight=weight))
 
-    def get_parent_folder(self) -> folder | None:
+    def get_parent_folder(self) -> Optional[folder]:
         """
         get_parent_folder get the folder of the parent, if it exists
 
         Returns:
             folder : pointer
         """
-        return self.parent 
+        return self.parent
 
-    def get_child_folder(self, name: str) -> folder:  # type: ignore
+    def get_child_folder(self, name: str) -> folder:
         """
         get_child_folder Finds the child folder with name
 
@@ -87,16 +84,18 @@ class folder:
             folder | user_file: returns folder
         """
         for item in self.children:
-            if type(item) == folder:
+            if isinstance(item, folder):
                 if item.name == name:
                     assert type(item) is folder
                     return item
 
+        raise Exception(f"Code should never reach this, error in {self.children}")
+
     def root(self) -> folder:
-        if self.get_parent_folder() is None:  # type: ignore
+        if self.name == "\\":
             return self
         else:
-            return self.get_parent_folder().root()  # type: ignore
+            return self.get_parent_folder().root()
 
     def get_all_info(self, depth: int = 0) -> str:
         """
@@ -108,10 +107,10 @@ class folder:
         Returns:
             str: string formatted
         """
-        if depth == 0:
+        if depth == 0:  
             string: str = f"{self.name}, (dir {self.weight}) \n"
         else:
-            string = '│\t' * (depth - 1) + '├───'
+            string = "│\t" * (depth - 1) + "├───"
             string += f"{self.name}, (dir {self.weight}) \n"
 
         for child in self.children:
@@ -132,7 +131,7 @@ class folder:
         value: int | float = self.weight if self.weight > left_space else inf
 
         for child in self.children:
-            if type(child) == folder:
+            if isinstance(child, folder):
                 child_weight: int | float = child.weight_search(left_space)
                 child_weight = child_weight if self.weight > child_weight else inf
                 value = min(value, child_weight)
@@ -165,46 +164,34 @@ def parse_data(input_str: list[Any]) -> list[Any]:
 
 
 def puzzle(puzzle_input: list[Any]) -> int:
-    puzzle_input_parsed: list[Any] = parse_data(puzzle_input)
-
-    first: bool = True
-    current = folder(name="dummy",
-                     weight=0,
-                     parent=None,
-                     children=[])
+    puzzle_input_parsed: list[Any] = parse_data(puzzle_input)[1:]
+    folder_pointer: folder = folder(name="\\", weight=0, parent=None, children=[])
 
     for line in puzzle_input_parsed:
         if "cd" in line[0]:
             name: str = line[0].split("cd ")[-1]
-            if first:
-                current: folder = folder(name=name,
-                                         weight=0,
-                                         parent=None,
-                                         children=[])
-                first = False
-            elif name == "..":
-                current = current.get_parent_folder()  # type: ignore
+            if name == "..":
+                folder_pointer = folder_pointer.get_parent_folder()  # type: ignore
+                # should never be None
             else:
-                current = current.get_child_folder(name)
+                folder_pointer = folder_pointer.get_child_folder(name)
 
         elif "ls" in line[0]:
             for content in line[1:]:
                 info, name = content.split(" ")
 
                 if info == "dir":
-                    current.add_folder(name=name)
+                    folder_pointer.add_folder(name=name)
                 else:
-                    current.add_file(name=name,
-                                     weight=int(info))
+                    folder_pointer.add_file(name=name, weight=int(info))
 
     # find good weight
     max_size: Literal[70000000] = 70000000
     min_size: Literal[30000000] = 30000000
 
-    left_space: int = min_size - \
-        (max_size - current.root().weight)
+    left_space: int = min_size - (max_size - folder_pointer.root().weight)
 
-    return int(current.root().weight_search(left_space))
+    return int(folder_pointer.root().weight_search(left_space))
 
 
 if __name__ == "__main__":
@@ -212,15 +199,15 @@ if __name__ == "__main__":
     import os
 
     try:
-        final: bool = sys.argv[1] == "final"
+        final: bool
+        final = sys.argv[1] == "final"
     except IndexError:
-        final: bool = False
+        final = False
 
     dir_path: str = os.path.dirname(os.path.realpath(__file__))
 
     if final:
-        puzzle_input: list[str] = open(
-            f"{dir_path}/input.txt", "r").readlines()
+        puzzle_input: list[str] = open(f"{dir_path}/input.txt", "r").readlines()
         puzzle_input: list[str] = [x.rstrip() for x in puzzle_input]
         print(puzzle(puzzle_input))
     else:

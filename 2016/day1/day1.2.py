@@ -90,7 +90,6 @@ if __name__ == "__main__":
         puzzle_input_r: list[str] = [x.strip()
                                      for x in puzzle_input.rstrip().split(", ")]
         print(puzzle(puzzle_input_r))
-        # assert puzzle(puzzle_input) == 12
 
     if clock:
         print("time: ", time.time() - start)  # type: ignore

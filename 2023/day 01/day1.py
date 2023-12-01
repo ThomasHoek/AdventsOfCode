@@ -1,8 +1,13 @@
-from typing import Any
+import re
 
 
-def puzzle(puzzle_input: Any) -> Any:
-    pass
+def puzzle(puzzle_input: list[str]) -> int:
+    total = 0
+    re_filter = re.compile(r'\d')
+    for code in puzzle_input:
+        number_lst = re_filter.findall(code)
+        total += int(number_lst[0] + number_lst[-1])
+    return total
 
 
 if __name__ == "__main__":
@@ -36,15 +41,14 @@ if __name__ == "__main__":
         puzzle_input: list[str] = open(f"{dir_path}/input.txt",
                                        "r").readlines()
         # puzzle_input_r: list[str] = [x.rstrip() for x in puzzle_input]
-        puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
+        puzzle_input_r: list[str] = [str(x.rstrip()) for x in puzzle_input]
         print(puzzle(puzzle_input_r))
 
     else:
         puzzle_input: list[str] = open(f"{dir_path}/test.txt", "r").readlines()
         # puzzle_input_r: list[str] = [x.rstrip() for x in puzzle_input]
-        puzzle_input_r: list[int] = [int(x.rstrip()) for x in puzzle_input]
-        puzzle(puzzle_input_r)
-        # assert puzzle(puzzle_input_r) == NotImplemented
+        puzzle_input_r: list[str] = [str(x.rstrip()) for x in puzzle_input]
+        assert puzzle(puzzle_input_r) == 142
 
     if clock:
         print("time: ", time.time() - start)  # type: ignore

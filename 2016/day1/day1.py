@@ -71,7 +71,6 @@ if __name__ == "__main__":
         puzzle_input: str = open(f"{dir_path}/test.txt", "r").readline()
         puzzle_input_r: list[str] = [x.rstrip() for x in puzzle_input.split(", ")]
         print(puzzle(puzzle_input_r))
-        # assert puzzle(puzzle_input) == 12
 
     if clock:
         print("time: ", time.time() - start)  # type: ignore
