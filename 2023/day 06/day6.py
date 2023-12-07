@@ -11,8 +11,8 @@ def abc_formula(time: int, dist: int) -> tuple[float, float]:
     -x^2 - x *time - dist = 0
 
     Args:
-        time (_type_): _description_
-        dist (_type_): _description_
+        time (int): B argument
+        dist (int): C argument
     """
     a: int = 1
     b: int = -time
