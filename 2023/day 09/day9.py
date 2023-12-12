@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def puzzle(puzzle_input: list[list[str]]) -> int:
+def puzzle(puzzle_input: list[str]) -> int:
     total = 0
     for line in puzzle_input:
         num_lst: list[int] = [int(x) for x in line.split(" ")]

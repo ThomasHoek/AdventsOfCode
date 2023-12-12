@@ -4,12 +4,10 @@ from collections import defaultdict
 
 
 def puzzle(puzzle_input: Any) -> Any:
-    total = 0
-
     counter_dict = defaultdict(int = 1)
     counter_dict[1] = 1
     counter_dict.default_factory = lambda: 1
-    
+
     re_filter = re.compile(r"([\d| ]+) \| ([\d| ]+)")
 
     for number, line in enumerate(puzzle_input, start=1):
