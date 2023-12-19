@@ -45,12 +45,7 @@ def recursive_make(inp_str: str, pattern: list[int]) -> int:
             else:
                 return 0
 
-    mem_inp = inp_str + "_".join(map(str, pattern))
-    if mem_inp in memory:
-        # print(memory[mem_inp], total)
-        memory[mem_inp] = max(total, memory[mem_inp])
-    else:
-        memory[mem_inp] = total
+    memory[mem_inp] = total
     return total
 
 
