@@ -102,16 +102,3 @@ if __name__ == "__main__":
     if file:
         sys.stdout = orig_stdout  # type: ignore
         f.close()  # type: ignore
-
-# 49679
-# That's not the right answer; your answer is too high. If you're stuck, make sure you're using the full input data; there are also some general tips on the about page, or you can ask for hints on the subreddit.
-# Please wait one minute before trying again. [Return to Day 13]
-
-# 27008
-# That's not the right answer; your answer is too low.
-
-# 26907
-# That's not the right answer; your answer is too low.
-
-# 41066
-# That's not the right answer.
